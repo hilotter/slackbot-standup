@@ -21,6 +21,12 @@ expressReceiver.app.get('/auth/direct', (_, res) => {
 });
 
 expressReceiver.app.get('/auth/callback', async (req, res) => {
+  if (req.query.error) {
+    res.write(`Authentication failed: ${req.query.error}`);
+    res.end();
+    return;
+  }
+
   const data = (await app.client.oauth.v2.access({
     client_id: process.env.SLACK_CLIENT_ID!,
     client_secret: process.env.SLACK_CLIENT_SECRET!,
