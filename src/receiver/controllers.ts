@@ -10,7 +10,9 @@ expressReceiver.app.get('', (_, res) => {
 // https://github.com/slackapi/bolt/issues/302#issuecomment-548221661
 expressReceiver.app.get('/auth/add', (_, res) => {
   // Slack API > your app > Manage Distribution > Embeddable slack button
-  res.write(process.env.SLACK_INSTALL_EMBEDDABLE_SLACK_BUTTON!);
+  res.write(
+    `<a href="https://slack.com/oauth/v2/authorize?client_id=${process.env.SLACK_CLIENT_ID}&scope=chat:write,commands,users.profile:read"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>`
+  );
   res.end();
 });
 
