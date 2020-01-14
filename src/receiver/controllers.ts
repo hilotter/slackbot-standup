@@ -18,7 +18,9 @@ expressReceiver.app.get('/auth/add', (_, res) => {
 
 expressReceiver.app.get('/auth/direct', (_, res) => {
   // Slack API > your app > Manage Distribution > Sharable URL
-  res.redirect(process.env.SLACK_INSTALL_SHARABLE_URL!);
+  res.redirect(
+    `https://slack.com/oauth/v2/authorize?client_id=${process.env.SLACK_CLIENT_ID}&scope=chat:write,commands,users.profile:read`
+  );
   res.end();
 });
 
