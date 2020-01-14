@@ -179,12 +179,12 @@ app.command('/standup-setting', async ({ ack, payload, context, say }) => {
   }
 
   const setting = await Setting.read(payload.team_id);
-  const broadcastChannel = setting.broadcastChannel
-    ? setting.broadcastChannel
-    : undefined;
-  const reminderText = setting.reminderText
-    ? setting.reminderText
-    : '/remind #channel @here It is time for daily stand-up(/standup) every Weekday at 10:00';
+  const broadcastChannel =
+    setting && setting.broadcastChannel ? setting.broadcastChannel : undefined;
+  const reminderText =
+    setting && setting.reminderText
+      ? setting.reminderText
+      : '/remind #channel @here It is time for daily stand-up(/standup) every Weekday at 10:00';
 
   try {
     app.client.views.open({
