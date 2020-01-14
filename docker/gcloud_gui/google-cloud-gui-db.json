@@ -1,0 +1,10 @@
+{
+  "projects": [
+    {
+      "service": "datastore",
+      "projectId": "app",
+      "apiEndpoint": "http://gcloud:8081",
+      "id": "default"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+version: "3"
+services:
+  app:
+    build: .
+    environment:
+      NODE_ENV: development
+      TZ: Asia/Tokyo
+      DATASTORE_EMULATOR_HOST: gcloud:8081
+      DATASTORE_PROJECT_ID: app
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    volumes:
+      - yarn_install:/app/node_modules
+      - .:/app
+    command: ["yarn", "dev"]
+    depends_on: 
+      - gcloud
+
+  gcloud:
+    build:
+      context: ./docker/gcloud
+      dockerfile: Dockerfile
+    tty: true
+    environment:
+      DATASTORE_PROJECT_ID: app
+      DATASTORE_LISTEN_ADDRESS: 0.0.0.0:8081
+    ports:
+      - "8081:8081"
+
+  gcloud_gui:
+    build:
+      context: ./docker/gcloud_gui
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8000"
+    depends_on: 
+      - gcloud
+    logging:
+      driver: none  # https://github.com/GabiAxel/google-cloud-gui/issues/7
+
+volumes:
+  yarn_install:
