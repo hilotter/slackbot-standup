@@ -41,7 +41,16 @@ expressReceiver.app.get('/auth/callback', async (req, res) => {
     }
   });
 
-  res.status(201).send('OK');
+  res.redirect('/auth/complete');
+  res.end();
+});
+
+expressReceiver.app.get('/auth/complete', async (req, res) => {
+  res
+    .status(200)
+    .send(
+      'install completed. please input "/standup-setting" in your slack team.'
+    );
 });
 
 export default expressReceiver;

@@ -1,5 +1,17 @@
 import { WebAPICallResult } from '@slack/web-api';
 
+export interface UserProfileResult extends WebAPICallResult {
+  profile: {
+    image_72: string;
+    image_192: string;
+  };
+}
+export interface UserInfoResult extends WebAPICallResult {
+  user: {
+    is_admin: boolean;
+  };
+}
+
 export interface BotInfoResult extends WebAPICallResult {
   user: {
     profile: {

@@ -1,5 +1,5 @@
-import { App, AuthorizeResult } from '@slack/bolt';
-import expressReceiver from '~/receiver/expressReceiver';
+import { App, AuthorizeResult, LogLevel } from '@slack/bolt';
+import expressReceiver from '~/receiver';
 import Workspace from '~/models/workspace';
 
 const authorizeFn = async ({ teamId }): Promise<AuthorizeResult> => {
@@ -14,10 +14,11 @@ const authorizeFn = async ({ teamId }): Promise<AuthorizeResult> => {
   throw new Error('No matching authorizations');
 };
 
-// Initializes your app with your bot token and signing secret
 const app = new App({
   receiver: expressReceiver,
-  authorize: authorizeFn
+  authorize: authorizeFn,
+  logLevel:
+    process.env.NODE_ENV === 'production' ? LogLevel.WARN : LogLevel.DEBUG
 });
 
 export default app;

@@ -2,18 +2,17 @@ import { Datastore } from '@google-cloud/datastore';
 
 const datastore = new Datastore();
 
-class Workspace {
-  private static kind = 'Workspace';
+class Setting {
+  private static kind = 'Setting';
 
   static async add({
     teamId,
-    botInfo
+    settingInfo
   }: {
     teamId: string;
-    botInfo: {
-      botId: string;
-      botToken: string;
-      botUserId: string;
+    settingInfo: {
+      broadcastChannel: string;
+      reminderText: string;
     };
   }) {
     const key = datastore.key({
@@ -24,16 +23,12 @@ class Workspace {
       key: key,
       data: [
         {
-          name: 'botId',
-          value: botInfo.botId
+          name: 'broadcastChannel',
+          value: settingInfo.broadcastChannel
         },
         {
-          name: 'botToken',
-          value: botInfo.botToken
-        },
-        {
-          name: 'botUserId',
-          value: botInfo.botUserId
+          name: 'reminderText',
+          value: settingInfo.reminderText
         },
         {
           name: 'created',
@@ -44,7 +39,7 @@ class Workspace {
 
     try {
       await datastore.upsert(entity);
-      console.log(`Workspace created successfully.`);
+      console.log(`Setting ${key.id} created successfully.`);
       return true;
     } catch (err) {
       console.error('ERROR:', err);
@@ -62,9 +57,9 @@ class Workspace {
       namespace: teamId,
       path: [this.kind, teamId]
     });
-    const [workspace] = await datastore.get(key);
-    return workspace ? this.fromDatastore(workspace) : null;
+    const [setting] = await datastore.get(key);
+    return setting ? this.fromDatastore(setting) : null;
   }
 }
 
-export default Workspace;
+export default Setting;
