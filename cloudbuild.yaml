@@ -6,6 +6,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['run', 'deploy', 'bolt-app', '--image', 'gcr.io/$PROJECT_ID/bolt-app:${SHORT_SHA}', '--region', 'asia-northeast1', '--platform', 'managed', '--allow-unauthenticated']
   env:
+  - 'PORT=8080'
   - 'NODE_ENV=production'
   - 'SLACK_BOT_TOKEN=${_SLACK_BOT_TOKEN}'
   - 'SLACK_SIGNING_SECRET=${_SLACK_SIGNING_SECRET}'
