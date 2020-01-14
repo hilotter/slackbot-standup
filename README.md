@@ -30,5 +30,8 @@ https://{bot_url}/slack/events
 - Request URL: https://{bot_url}/slack/events
 - Short Description: standup global settings
 
+# TODO
+- [ ] custom questions
+
 # refs
 - [Slack | Bolt](https://slack.dev/bolt/tutorial/getting-started)
