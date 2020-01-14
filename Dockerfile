@@ -14,11 +14,10 @@ RUN yarn build
 # Build Stage 2
 FROM node:12.14-alpine
 
-ENV PORT 8080
-ENV HOST 0.0.0.0
-
 WORKDIR /app
 
+COPY package.json yarn.lock /app/
 COPY --from=appbuild /app/dist ./dist
+COPY --from=appbuild /app/node_modules ./node_modules
 
 CMD [ "yarn", "start" ]
