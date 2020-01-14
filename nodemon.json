@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts",
+  "ignore": ["tests/**/*.ts"],
+  "exec": "yarn run webpack && node ./dist/index.js"
+}
