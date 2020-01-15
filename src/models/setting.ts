@@ -39,7 +39,7 @@ class Setting {
 
     try {
       await datastore.upsert(entity);
-      console.log(`Setting ${key.id} created successfully.`);
+      console.log(`Setting created successfully.`);
       return true;
     } catch (err) {
       console.error('ERROR:', err);
@@ -48,7 +48,7 @@ class Setting {
   }
 
   static fromDatastore(obj) {
-    obj.id = obj[Datastore.KEY].id;
+    obj.id = obj[Datastore.KEY].name;
     return obj;
   }
 

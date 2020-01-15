@@ -4,7 +4,6 @@ services:
     build: .
     environment:
       NODE_ENV: development
-      TZ: Asia/Tokyo
       DATASTORE_EMULATOR_HOST: gcloud:8081
       DATASTORE_PROJECT_ID: app
     ports:
