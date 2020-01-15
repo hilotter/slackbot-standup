@@ -6,9 +6,11 @@ export interface UserProfileResult extends WebAPICallResult {
     image_192: string;
   };
 }
+
 export interface UserInfoResult extends WebAPICallResult {
   user: {
     is_admin: boolean;
+    tz_offset: number;
   };
 }
 
@@ -37,4 +39,8 @@ export interface OAuthV2AccessResult extends WebAPICallResult {
     access_token: string;
     token_type: string;
   };
+}
+
+export interface ChatPostMessageResult extends WebAPICallResult {
+  ts: string;
 }

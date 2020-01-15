@@ -53,7 +53,7 @@ class Workspace {
   }
 
   static fromDatastore(obj) {
-    obj.id = obj[Datastore.KEY].id;
+    obj.id = obj[Datastore.KEY].name;
     return obj;
   }
 
