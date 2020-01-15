@@ -20,6 +20,7 @@ https://{bot_url}/auth/callback
 #### Scopes
 - chat:write
 - commands
+- users:read
 - users.profile:read
 
 ### Event Subscriptions
