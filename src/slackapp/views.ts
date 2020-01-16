@@ -52,27 +52,18 @@ app.view(
 
     const blockTexts = [
       '*:sunrise: 今日の気分はどうですか？*',
-      '\n',
-      status,
-      '\n',
+      `${status}\n`,
       '*:bee: 前回はなにをしましたか？*',
-      '\n',
-      lastTimeTodo,
-      '\n',
+      `${lastTimeTodo}\n`,
       '*:books: 今日はなにをしますか？*',
-      '\n',
-      todayTodo
+      `${todayTodo}\n`
     ];
     if (trouble) {
-      blockTexts.push('\n');
       blockTexts.push('*:tractor: 困りごと、悩みごとはありますか？*');
-      blockTexts.push('\n');
-      blockTexts.push(trouble);
+      blockTexts.push(`${trouble}\n`);
     }
     if (goodPoint) {
-      blockTexts.push('\n');
       blockTexts.push('*:bulb: 最近のよかったことを教えてほしいです*');
-      blockTexts.push('\n');
       blockTexts.push(goodPoint);
     }
 
