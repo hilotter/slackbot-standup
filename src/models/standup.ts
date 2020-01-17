@@ -55,7 +55,7 @@ class Standup {
         },
         {
           name: 'goodPoint',
-          value: standupInfo.trouble || ''
+          value: standupInfo.goodPoint || ''
         },
         {
           name: 'ts',
