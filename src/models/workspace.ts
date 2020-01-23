@@ -14,6 +14,7 @@ class Workspace {
       botId: string;
       botToken: string;
       botUserId: string;
+      tzOffset: number;
     };
   }) {
     const key = datastore.key({
@@ -36,6 +37,10 @@ class Workspace {
           value: botInfo.botUserId
         },
         {
+          name: 'tzOffset',
+          value: botInfo.tzOffset
+        },
+        {
           name: 'created',
           value: new Date().toJSON()
         }
@@ -44,7 +49,7 @@ class Workspace {
 
     try {
       await datastore.upsert(entity);
-      console.log(`Workspace created successfully.`);
+      console.log(`Workspace ${key.namespace} created successfully.`);
       return true;
     } catch (err) {
       console.error('ERROR:', err);

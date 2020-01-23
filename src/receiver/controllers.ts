@@ -1,5 +1,5 @@
 import Workspace from '~/models/workspace';
-import { OAuthV2AccessResult, BotInfoResult } from '~/types';
+import { OAuthV2AccessResult, BotInfoResult, UserInfoResult } from '~/types';
 import expressReceiver from '~/receiver/expressReceiver';
 import app from '~/slackapp/app';
 
@@ -42,12 +42,19 @@ expressReceiver.app.get('/auth/callback', async (req, res) => {
     user: data.bot_user_id
   })) as BotInfoResult;
 
+  const user = (await app.client.users.info({
+    token: data.access_token,
+    user: data.authed_user.id,
+    include_locale: true
+  })) as UserInfoResult;
+
   Workspace.add({
     teamId: data.team.id,
     botInfo: {
       botToken: data.access_token,
       botUserId: data.bot_user_id,
-      botId: botInfo.user.profile.bot_id
+      botId: botInfo.user.profile.bot_id,
+      tzOffset: user.user.tz_offset
     }
   });
 
