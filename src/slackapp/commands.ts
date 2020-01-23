@@ -188,7 +188,16 @@ app.command('/standup', async ({ ack, payload, context }) => {
       }
     });
   } catch (error) {
-    console.error(error.data.response_metadata);
+    await app.client.chat
+      .postEphemeral({
+        token: context.botToken,
+        user: payload.user_id,
+        channel: payload.user_id,
+        text: 'Sorry, an error has occurred. Please try again "/standup".'
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     console.error(error);
   }
 });
@@ -307,6 +316,17 @@ app.command('/standup-setting', async ({ ack, payload, context, say }) => {
       }
     });
   } catch (error) {
+    await app.client.chat
+      .postEphemeral({
+        token: context.botToken,
+        user: payload.user_id,
+        channel: payload.user_id,
+        text:
+          'Sorry, an error has occurred. Please try again "/standup-setting".'
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     console.error(error);
   }
 });
