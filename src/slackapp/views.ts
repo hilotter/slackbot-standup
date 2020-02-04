@@ -49,21 +49,23 @@ app.view('standup', async ({ ack, body, view, context }) => {
     user: userId
   })) as UserProfileResult;
 
-  const blockTexts = [
+  const headBlockTexts = [
     '*:sunrise: 今日の気分はどうですか？*',
-    `${status}\n`,
+    `${status}\n`
+  ];
+  const bodyBlockTexts = [
     '*:bee: 前回はなにをしましたか？*',
     `${lastTimeTodo}\n`,
     '*:books: 今日はなにをしますか？*',
     `${todayTodo}\n`
   ];
   if (trouble) {
-    blockTexts.push('*:tractor: 困りごと、悩みごとはありますか？*');
-    blockTexts.push(`${trouble}\n`);
+    bodyBlockTexts.push('*:tractor: 困りごと、悩みごとはありますか？*');
+    bodyBlockTexts.push(`${trouble}\n`);
   }
   if (goodPoint) {
-    blockTexts.push('*:bulb: 最近のよかったことを教えてほしいです*');
-    blockTexts.push(goodPoint);
+    bodyBlockTexts.push('*:bulb: 最近のよかったことを教えてほしいです*');
+    bodyBlockTexts.push(goodPoint);
   }
 
   let messageArguments = {
@@ -72,16 +74,18 @@ app.view('standup', async ({ ack, body, view, context }) => {
     text: '',
     blocks: [
       {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: `${username}'s daily standup`
-        },
-        accessory: {
-          type: 'image',
-          image_url: userProfile.profile.image_192,
-          alt_text: username
-        }
+        type: 'context',
+        elements: [
+          {
+            type: 'image',
+            image_url: userProfile.profile.image_192,
+            alt_text: username
+          },
+          {
+            type: 'mrkdwn',
+            text: `${username}'s daily standup`
+          }
+        ]
       },
       {
         type: 'divider'
@@ -90,7 +94,19 @@ app.view('standup', async ({ ack, body, view, context }) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: blockTexts.join('\n')
+          text: headBlockTexts.join('\n')
+        },
+        accessory: {
+          type: 'image',
+          image_url: userProfile.profile.image_192,
+          alt_text: username
+        }
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: bodyBlockTexts.join('\n')
         }
       }
     ]
