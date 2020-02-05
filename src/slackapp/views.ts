@@ -49,22 +49,19 @@ app.view('standup', async ({ ack, body, view, context }) => {
     user: userId
   })) as UserProfileResult;
 
-  const headBlockTexts = [
-    '*:sunrise: 今日の気分はどうですか？*',
-    `${status}\n`
-  ];
+  const headBlockTexts = ['*今日の気分はどうですか？*', `${status}\n`];
   const bodyBlockTexts = [
-    '*:bee: 前回はなにをしましたか？*',
+    '*前回はなにをしましたか？*',
     `${lastTimeTodo}\n`,
-    '*:books: 今日はなにをしますか？*',
+    '*今日はなにをしますか？*',
     `${todayTodo}\n`
   ];
   if (trouble) {
-    bodyBlockTexts.push('*:tractor: 困りごと、悩みごとはありますか？*');
+    bodyBlockTexts.push('*困りごと、悩みごとはありますか？*');
     bodyBlockTexts.push(`${trouble}\n`);
   }
   if (goodPoint) {
-    bodyBlockTexts.push('*:bulb: 最近のよかったことを教えてほしいです*');
+    bodyBlockTexts.push('*最近のよかったことを教えてほしいです*');
     bodyBlockTexts.push(goodPoint);
   }
 
@@ -73,6 +70,9 @@ app.view('standup', async ({ ack, body, view, context }) => {
     channel: setting.broadcastChannel,
     text: '',
     blocks: [
+      {
+        type: 'divider'
+      },
       {
         type: 'context',
         elements: [
@@ -88,18 +88,10 @@ app.view('standup', async ({ ack, body, view, context }) => {
         ]
       },
       {
-        type: 'divider'
-      },
-      {
         type: 'section',
         text: {
           type: 'mrkdwn',
           text: headBlockTexts.join('\n')
-        },
-        accessory: {
-          type: 'image',
-          image_url: userProfile.profile.image_192,
-          alt_text: username
         }
       },
       {
