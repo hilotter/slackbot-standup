@@ -11,7 +11,7 @@ expressReceiver.app.get('', (_, res) => {
 expressReceiver.app.get('/auth/add', (_, res) => {
   // Slack API > your app > Manage Distribution > Embeddable slack button
   res.write(
-    `<a href="https://slack.com/oauth/v2/authorize?client_id=${process.env.SLACK_CLIENT_ID}&scope=chat:write,commands,users.profile:read,users:read"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>`
+    `<a href="https://slack.com/oauth/v2/authorize?client_id=${process.env.SLACK_CLIENT_ID}&scope=chat:write,commands,users.profile:read,users:read,channels:history"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>`
   );
   res.end();
 });
@@ -19,7 +19,7 @@ expressReceiver.app.get('/auth/add', (_, res) => {
 expressReceiver.app.get('/auth/direct', (_, res) => {
   // Slack API > your app > Manage Distribution > Sharable URL
   res.redirect(
-    `https://slack.com/oauth/v2/authorize?client_id=${process.env.SLACK_CLIENT_ID}&scope=chat:write,commands,users.profile:read,users:read`
+    `https://slack.com/oauth/v2/authorize?client_id=${process.env.SLACK_CLIENT_ID}&scope=chat:write,commands,users.profile:read,users:read,channels:history`
   );
   res.end();
 });
