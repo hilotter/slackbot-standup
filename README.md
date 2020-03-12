@@ -22,16 +22,25 @@ https://{bot_url}/auth/callback
 - commands
 - users:read
 - users.profile:read
+- channels:history
 
 ### Event Subscriptions
 #### Request URL
 
 https://{bot_url}/slack/events
 
+#### Subscribe to bot events
+- message.channels
+
 ### Interactive Components
 #### Request URL
 
 https://{bot_url}/slack/events
+
+#### Actions
+- Name: Today's Standup
+- Short Description: input today's standup
+- Callback ID: input_standup
 
 ### Slash Commands
 #### /standup
@@ -44,8 +53,10 @@ https://{bot_url}/slack/events
 - Request URL: https://{bot_url}/slack/events
 - Short Description: standup global settings
 
-# TODO
-- [ ] custom questions
+#### /standup-request
+- Command: /standup-request
+- Request URL: https://{bot_url}/slack/events
+- Short Description: show standup button
 
 # refs
 - [Slack | Bolt](https://slack.dev/bolt/tutorial/getting-started)
