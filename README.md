@@ -42,7 +42,7 @@ https://{bot_url}/slack/events
 - Short Description: input today's standup
 - Callback ID: input_standup
 
-[standup_action](https://user-images.githubusercontent.com/1042519/76507178-ac2db900-648f-11ea-8a11-35d5a9f059cd.png)
+![standup_action](https://user-images.githubusercontent.com/1042519/76507178-ac2db900-648f-11ea-8a11-35d5a9f059cd.png)
 
 ### Slash Commands
 #### /standup
