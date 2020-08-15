@@ -7,6 +7,7 @@
 
 ```
 cp .env.sample .env
+cp docker-compose.override.yml.sample docker-compose.override.yml
 docker-compose build
 docker-compose up
 ```
