@@ -16,15 +16,15 @@ app.view('standup', async ({ ack, body, view, context }) => {
     .startOf('day')
     .toJSON();
 
-  const status =
-    view['state']['values']['standup_status']['select'].selected_option.value;
-  const lastTimeTodo =
-    view['state']['values']['standup_last_time_todo']['input'].value;
-  const todayTodo =
-    view['state']['values']['standup_today_todo']['input'].value;
-  const trouble = view['state']['values']['standup_trouble']['input'].value;
-  const goodPoint =
-    view['state']['values']['standup_good_point']['input'].value;
+  const values = view['state']['values'];
+  const status = values['standup_status']['select'].selected_option.value;
+  const lastTimeTodo = values['standup_last_time_todo']['input'].value;
+  const todayTodo = values['standup_today_todo']['input'].value;
+  const trouble = values['standup_trouble']['input'].value;
+  const goodPoint = values['standup_good_point']['input'].value;
+  const workPlace =
+    values['standup_work_place']['select'].selected_option?.value;
+  const information = values['standup_information']['input'].value;
   const userId = body.user.id;
   const username = body.user.name;
   const isUpdate = view.submit!.text === 'Update';
@@ -63,6 +63,14 @@ app.view('standup', async ({ ack, body, view, context }) => {
   if (goodPoint) {
     bodyBlockTexts.push('*最近のよかったことを教えてほしいです*');
     bodyBlockTexts.push(goodPoint);
+  }
+  if (workPlace) {
+    bodyBlockTexts.push('*今日は作業場所は？*');
+    bodyBlockTexts.push(`${workPlace}\n`);
+  }
+  if (information) {
+    bodyBlockTexts.push('*連絡事項あれば*');
+    bodyBlockTexts.push(`${information}\n`);
   }
 
   let messageArguments = {
@@ -131,6 +139,8 @@ app.view('standup', async ({ ack, body, view, context }) => {
       todayTodo,
       trouble,
       goodPoint,
+      workPlace,
+      information,
       ts
     };
     await Standup.add({
