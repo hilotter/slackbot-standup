@@ -2,6 +2,7 @@ import { KnownBlock, Block } from '@slack/types';
 import app from '~/slackapp/app';
 import { getToday } from '~/slackapp/common/date';
 import Standup from '~/models/standup';
+import { SayFn } from '@slack/bolt';
 
 type MessageArguments = {
   channelId: string;
@@ -58,9 +59,9 @@ export const sendStandupRequestMessage = async (
 };
 
 type ListWorkPlaceMessageArguments = {
-  channelId: string;
   userId: string;
   teamId: string;
+  say: SayFn;
 };
 
 export const sendListWorkPlaceMessage = async (
@@ -98,10 +99,8 @@ export const sendListWorkPlaceMessage = async (
   });
 
   try {
-    await app.client.chat.postMessage({
-      text: 'test',
-      token: context.botToken,
-      channel: args.channelId,
+    await args.say({
+      text: '',
       blocks
     });
   } catch (error) {
