@@ -44,17 +44,20 @@ app.command('/standup-request', async ({ ack, payload, context }) => {
   );
 });
 
-app.command('/standup-list-work-place', async ({ ack, payload, context }) => {
-  await ack();
+app.command(
+  '/standup-list-work-place',
+  async ({ ack, payload, context, say }) => {
+    await ack();
 
-  await sendListWorkPlaceMessage(
-    {
-      channelId: payload.channel_id,
-      userId: payload.user_id,
-      teamId: payload.team_id
-    },
-    context
-  );
-});
+    await sendListWorkPlaceMessage(
+      {
+        userId: payload.user_id,
+        teamId: payload.team_id,
+        say
+      },
+      context
+    );
+  }
+);
 
 export default app;
