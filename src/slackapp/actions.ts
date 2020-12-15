@@ -4,7 +4,7 @@ import { showStandupModal } from '~/slackapp/common/modal';
 
 // from Interactive Components
 app.action({ callback_id: 'input_standup' }, async ({ ack, body, context }) => {
-  ack();
+  await ack();
 
   const action = body as MessageAction;
   await showStandupModal(
@@ -19,7 +19,7 @@ app.action({ callback_id: 'input_standup' }, async ({ ack, body, context }) => {
 
 // from command
 app.action('show_standup_modal', async ({ ack, body, context }) => {
-  ack();
+  await ack();
 
   const blockAction = body as BlockAction;
   await showStandupModal(

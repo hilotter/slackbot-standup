@@ -6,7 +6,7 @@ import Workspace from '~/models/workspace';
 import { UserProfileResult, ChatPostMessageResult } from '~/types';
 
 app.view('standup', async ({ ack, body, view, context }) => {
-  ack();
+  await ack();
 
   const teamId = view.team_id;
   const workspace = await Workspace.read(teamId);
@@ -154,7 +154,7 @@ app.view('standup', async ({ ack, body, view, context }) => {
 });
 
 app.view('standup_setting', async ({ ack, body, view, context }) => {
-  ack();
+  await ack();
 
   const teamId: string = view.team_id;
   const broadcastChannel: string =
