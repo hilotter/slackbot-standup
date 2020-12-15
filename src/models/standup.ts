@@ -8,10 +8,12 @@ class Standup {
   static async add({
     teamId,
     userId,
+    userName,
     standupInfo
   }: {
     teamId: string;
     userId: string;
+    userName: string;
     standupInfo: {
       status: string;
       postDate: string;
@@ -34,6 +36,10 @@ class Standup {
         {
           name: 'userId',
           value: userId
+        },
+        {
+          name: 'userName',
+          value: userName
         },
         {
           name: 'postDate',
@@ -100,6 +106,15 @@ class Standup {
     });
     const [standup] = await datastore.get(key);
     return standup ? this.fromDatastore(standup) : null;
+  }
+
+  static async listByPostDate(teamId: string, postDate: string) {
+    const query = datastore
+      .createQuery(teamId, this.kind)
+      .filter('postDate', '=', postDate)
+      .limit(100);
+    const [items] = await datastore.runQuery(query);
+    return items.map((item) => this.fromDatastore(item));
   }
 }
 

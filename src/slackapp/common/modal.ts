@@ -1,9 +1,8 @@
-import dayjs from 'dayjs';
 import { UserInfoResult } from '~/types';
 import app from '~/slackapp/app';
 import Standup from '~/models/standup';
-import Workspace from '~/models/workspace';
 import Setting from '~/models/setting';
+import { getToday } from '~/slackapp/common/date';
 import { SayFn } from '@slack/bolt';
 
 type ShowStandupModalArguments = {
@@ -16,12 +15,8 @@ export const showStandupModal = async (
   args: ShowStandupModalArguments,
   context
 ) => {
-  const workspace = await Workspace.read(args.teamId);
-  const tzOffset = workspace.tzOffset || 0;
   const latestStandup = await Standup.read(args.teamId, args.userId);
-  const today = dayjs()
-    .add(tzOffset, 'second')
-    .startOf('day');
+  const today = await getToday(args.teamId);
   const isUpdate = latestStandup && latestStandup.postDate === today.toJSON();
 
   try {

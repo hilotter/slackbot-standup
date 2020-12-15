@@ -26,7 +26,7 @@ app.view('standup', async ({ ack, body, view, context }) => {
     values['standup_work_place']['select'].selected_option?.value;
   const information = values['standup_information']['input'].value;
   const userId = body.user.id;
-  const username = body.user.name;
+  const userName = body.user.name;
   const isUpdate = view.submit!.text === 'Update';
 
   const setting = await Setting.read(teamId);
@@ -87,11 +87,11 @@ app.view('standup', async ({ ack, body, view, context }) => {
           {
             type: 'image',
             image_url: userProfile.profile.image_192,
-            alt_text: username
+            alt_text: userName
           },
           {
             type: 'mrkdwn',
-            text: `${username}'s daily standup`
+            text: `${userName}'s daily standup`
           }
         ]
       },
@@ -146,6 +146,7 @@ app.view('standup', async ({ ack, body, view, context }) => {
     await Standup.add({
       teamId,
       userId,
+      userName,
       standupInfo
     });
   } catch (error) {
