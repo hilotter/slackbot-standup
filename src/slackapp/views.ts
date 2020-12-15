@@ -65,7 +65,7 @@ app.view('standup', async ({ ack, body, view, context }) => {
     bodyBlockTexts.push(goodPoint);
   }
   if (workPlace) {
-    bodyBlockTexts.push('*今日は作業場所は？*');
+    bodyBlockTexts.push('*今日の作業場所は？*');
     bodyBlockTexts.push(`${workPlace}\n`);
   }
   if (information) {

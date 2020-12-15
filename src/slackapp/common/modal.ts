@@ -197,7 +197,7 @@ export const showStandupModal = async (
             block_id: 'standup_work_place',
             label: {
               type: 'plain_text',
-              text: ':female-technologist: 今日は作業場所は？',
+              text: ':female-technologist: 今日の作業場所は？',
               emoji: true
             },
             element: {
