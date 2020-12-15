@@ -19,6 +19,8 @@ class Standup {
       todayTodo: string;
       trouble: string;
       goodPoint: string;
+      workPlace: string;
+      information: string;
       ts: string;
     };
   }) {
@@ -56,6 +58,14 @@ class Standup {
         {
           name: 'goodPoint',
           value: standupInfo.goodPoint || ''
+        },
+        {
+          name: 'workPlace',
+          value: standupInfo.workPlace || ''
+        },
+        {
+          name: 'information',
+          value: standupInfo.information || ''
         },
         {
           name: 'ts',

@@ -191,6 +191,70 @@ export const showStandupModal = async (
               initial_value: isUpdate ? latestStandup.goodPoint : undefined
             },
             optional: true
+          },
+          {
+            type: 'input',
+            block_id: 'standup_work_place',
+            label: {
+              type: 'plain_text',
+              text: ':female-technologist: 今日の作業場所は？',
+              emoji: true
+            },
+            element: {
+              type: 'static_select',
+              action_id: 'select',
+              placeholder: {
+                type: 'plain_text',
+                text: 'Select an item',
+                emoji: true
+              },
+              initial_option:
+                isUpdate && latestStandup.workPlace !== ''
+                  ? {
+                      text: {
+                        type: 'plain_text',
+                        text: latestStandup.workPlace,
+                        emoji: true
+                      },
+                      value: latestStandup.workPlace
+                    }
+                  : undefined,
+              options: [
+                {
+                  text: {
+                    type: 'plain_text',
+                    text: 'リモートワーク',
+                    emoji: true
+                  },
+                  value: 'リモートワーク'
+                },
+                {
+                  text: {
+                    type: 'plain_text',
+                    text: 'オフィス',
+                    emoji: true
+                  },
+                  value: 'オフィス'
+                }
+              ]
+            },
+            optional: true
+          },
+          {
+            type: 'input',
+            block_id: 'standup_information',
+            label: {
+              type: 'plain_text',
+              text: ':memo: 連絡事項あれば',
+              emoji: true
+            },
+            element: {
+              type: 'plain_text_input',
+              action_id: 'input',
+              multiline: true,
+              initial_value: isUpdate ? latestStandup.information : undefined
+            },
+            optional: true
           }
         ]
       }

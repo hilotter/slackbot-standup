@@ -3,7 +3,7 @@ import { showStandupModal, showSettingModal } from '~/slackapp/common/modal';
 import { sendStandupRequestMessage } from '~/slackapp/common/message';
 
 app.command('/standup', async ({ ack, payload, context }) => {
-  ack();
+  await ack();
 
   await showStandupModal(
     {
@@ -16,7 +16,7 @@ app.command('/standup', async ({ ack, payload, context }) => {
 });
 
 app.command('/standup-setting', async ({ ack, payload, context, say }) => {
-  ack();
+  await ack();
 
   await showSettingModal(
     {
@@ -30,7 +30,7 @@ app.command('/standup-setting', async ({ ack, payload, context, say }) => {
 });
 
 app.command('/standup-request', async ({ ack, payload, context }) => {
-  ack();
+  await ack();
 
   await sendStandupRequestMessage(
     {

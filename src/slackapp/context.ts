@@ -9,5 +9,5 @@ export const addTimezoneContext = async ({ body, context, next }) => {
   })) as UserInfoResult;
 
   context.tz_offset = user.user.tz_offset;
-  next();
+  await next();
 };
