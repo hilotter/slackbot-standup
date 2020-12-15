@@ -8,10 +8,12 @@ class Standup {
   static async add({
     teamId,
     userId,
+    userName,
     standupInfo
   }: {
     teamId: string;
     userId: string;
+    userName: string;
     standupInfo: {
       status: string;
       postDate: string;
@@ -34,6 +36,10 @@ class Standup {
         {
           name: 'userId',
           value: userId
+        },
+        {
+          name: 'userName',
+          value: userName
         },
         {
           name: 'postDate',
