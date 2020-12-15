@@ -107,6 +107,15 @@ class Standup {
     const [standup] = await datastore.get(key);
     return standup ? this.fromDatastore(standup) : null;
   }
+
+  static async listByPostDate(teamId: string, postDate: string) {
+    const query = datastore
+      .createQuery(teamId, this.kind)
+      .filter('postDate', '=', postDate)
+      .limit(100);
+    const [items] = await datastore.runQuery(query);
+    return items.map((item) => this.fromDatastore(item));
+  }
 }
 
 export default Standup;
