@@ -15,14 +15,46 @@ export const showStandupModal = async (
   args: ShowStandupModalArguments,
   context
 ) => {
-  const latestStandup = await Standup.read(args.teamId, args.userId);
-  const today = await getToday(args.teamId);
-  const isUpdate = latestStandup && latestStandup.postDate === today.toJSON();
-
   try {
-    await app.client.views.open({
+    // https://github.com/slackapi/node-slack-sdk/issues/1131
+    const res = await app.client.views.open({
       token: context.botToken,
       trigger_id: args.triggerId,
+      view: {
+        type: 'modal',
+        callback_id: 'standup',
+        title: {
+          type: 'plain_text',
+          text: 'Daily Standup',
+          emoji: true
+        },
+        close: {
+          type: 'plain_text',
+          text: 'Cancel',
+          emoji: true
+        },
+        blocks: [
+          {
+            type: 'section',
+            text: {
+              type: 'plain_text',
+              text: ':man-biking: Loading...'
+            }
+          }
+        ]
+      }
+    });
+
+    const viewId = (res.view as {
+      id: string;
+    }).id;
+    const latestStandup = await Standup.read(args.teamId, args.userId);
+    const today = await getToday(args.teamId);
+    const isUpdate = latestStandup && latestStandup.postDate === today.toJSON();
+
+    await app.client.views.update({
+      token: context.botToken,
+      view_id: viewId,
       view: {
         type: 'modal',
         callback_id: 'standup',
