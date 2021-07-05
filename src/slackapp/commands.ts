@@ -1,9 +1,12 @@
 import app from '~/slackapp/app';
 import { showStandupModal, showSettingModal } from '~/slackapp/common/modal';
-import { sendStandupRequestMessage } from '~/slackapp/common/message';
+import {
+  sendStandupRequestMessage,
+  sendListWorkPlaceMessage
+} from '~/slackapp/common/message';
 
 app.command('/standup', async ({ ack, payload, context }) => {
-  ack();
+  await ack();
 
   await showStandupModal(
     {
@@ -16,7 +19,7 @@ app.command('/standup', async ({ ack, payload, context }) => {
 });
 
 app.command('/standup-setting', async ({ ack, payload, context, say }) => {
-  ack();
+  await ack();
 
   await showSettingModal(
     {
@@ -30,7 +33,7 @@ app.command('/standup-setting', async ({ ack, payload, context, say }) => {
 });
 
 app.command('/standup-request', async ({ ack, payload, context }) => {
-  ack();
+  await ack();
 
   await sendStandupRequestMessage(
     {
@@ -40,5 +43,21 @@ app.command('/standup-request', async ({ ack, payload, context }) => {
     context
   );
 });
+
+app.command(
+  '/standup-list-work-place',
+  async ({ ack, payload, context, say }) => {
+    await ack();
+
+    await sendListWorkPlaceMessage(
+      {
+        userId: payload.user_id,
+        teamId: payload.team_id,
+        say
+      },
+      context
+    );
+  }
+);
 
 export default app;
