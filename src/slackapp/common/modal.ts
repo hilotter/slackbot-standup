@@ -26,24 +26,30 @@ export const showStandupModal = async (
         title: {
           type: 'plain_text',
           text: 'Daily Standup',
-          emoji: true
+          emoji: true,
         },
         close: {
           type: 'plain_text',
           text: 'Cancel',
-          emoji: true
+          emoji: true,
         },
         blocks: [
           {
             type: 'section',
             text: {
               type: 'plain_text',
-              text: ':man-biking: Loading...'
-            }
-          }
-        ]
-      }
+              text:
+                ':man-biking: Loading...\n\nIf the loading does not complete after 10 seconds, click the Cancel button and run /standup again.',
+            },
+          },
+        ],
+      },
     });
+
+    if (res.error) {
+      console.log(res.response_metadata);
+      throw Error(res.error);
+    }
 
     const viewId = (res.view as {
       id: string;
@@ -61,17 +67,17 @@ export const showStandupModal = async (
         title: {
           type: 'plain_text',
           text: 'Daily Standup',
-          emoji: true
+          emoji: true,
         },
         submit: {
           type: 'plain_text',
           text: isUpdate ? 'Update' : 'Submit',
-          emoji: true
+          emoji: true,
         },
         close: {
           type: 'plain_text',
           text: 'Cancel',
-          emoji: true
+          emoji: true,
         },
         blocks: [
           {
@@ -81,11 +87,11 @@ export const showStandupModal = async (
               text: `:wave: Hello!\n\n${today.format(
                 'MM/DD'
               )} 今日の気分を教えてね :sunny:`,
-              emoji: true
-            }
+              emoji: true,
+            },
           },
           {
-            type: 'divider'
+            type: 'divider',
           },
           {
             type: 'input',
@@ -93,7 +99,7 @@ export const showStandupModal = async (
             label: {
               type: 'plain_text',
               text: ':sunrise: 今日の気分はどうですか？',
-              emoji: true
+              emoji: true,
             },
             element: {
               type: 'static_select',
@@ -101,16 +107,16 @@ export const showStandupModal = async (
               placeholder: {
                 type: 'plain_text',
                 text: 'Select an item',
-                emoji: true
+                emoji: true,
               },
               initial_option: isUpdate
                 ? {
                     text: {
                       type: 'plain_text',
                       text: latestStandup.status,
-                      emoji: true
+                      emoji: true,
                     },
-                    value: latestStandup.status
+                    value: latestStandup.status,
                   }
                 : undefined,
               options: [
@@ -118,44 +124,44 @@ export const showStandupModal = async (
                   text: {
                     type: 'plain_text',
                     text: '最高',
-                    emoji: true
+                    emoji: true,
                   },
-                  value: '最高'
+                  value: '最高',
                 },
                 {
                   text: {
                     type: 'plain_text',
                     text: 'いいかんじ',
-                    emoji: true
+                    emoji: true,
                   },
-                  value: 'いいかんじ'
+                  value: 'いいかんじ',
                 },
                 {
                   text: {
                     type: 'plain_text',
                     text: 'ちょっとわるい',
-                    emoji: true
+                    emoji: true,
                   },
-                  value: 'ちょっとわるい'
+                  value: 'ちょっとわるい',
                 },
                 {
                   text: {
                     type: 'plain_text',
                     text: 'きびしい',
-                    emoji: true
+                    emoji: true,
                   },
-                  value: 'きびしい'
+                  value: 'きびしい',
                 },
                 {
                   text: {
                     type: 'plain_text',
                     text: 'もうダメ、だれか助けて',
-                    emoji: true
+                    emoji: true,
                   },
-                  value: 'もうダメ、だれか助けて'
-                }
-              ]
-            }
+                  value: 'もうダメ、だれか助けて',
+                },
+              ],
+            },
           },
           {
             type: 'input',
@@ -163,14 +169,14 @@ export const showStandupModal = async (
             label: {
               type: 'plain_text',
               text: ':bee: 前回はなにをしましたか？',
-              emoji: true
+              emoji: true,
             },
             element: {
               type: 'plain_text_input',
               action_id: 'input',
               multiline: true,
-              initial_value: isUpdate ? latestStandup.lastTimeTodo : undefined
-            }
+              initial_value: isUpdate ? latestStandup.lastTimeTodo : undefined,
+            },
           },
           {
             type: 'input',
@@ -178,14 +184,14 @@ export const showStandupModal = async (
             label: {
               type: 'plain_text',
               text: ':books: 今日はなにをしますか？',
-              emoji: true
+              emoji: true,
             },
             element: {
               type: 'plain_text_input',
               action_id: 'input',
               multiline: true,
-              initial_value: isUpdate ? latestStandup.todayTodo : undefined
-            }
+              initial_value: isUpdate ? latestStandup.todayTodo : undefined,
+            },
           },
           {
             type: 'input',
@@ -193,15 +199,15 @@ export const showStandupModal = async (
             label: {
               type: 'plain_text',
               text: ':tractor: 困りごと、悩みごとはありますか？',
-              emoji: true
+              emoji: true,
             },
             element: {
               type: 'plain_text_input',
               action_id: 'input',
               multiline: true,
-              initial_value: isUpdate ? latestStandup.trouble : undefined
+              initial_value: isUpdate ? latestStandup.trouble : undefined,
             },
-            optional: true
+            optional: true,
           },
           {
             type: 'input',
@@ -209,15 +215,15 @@ export const showStandupModal = async (
             label: {
               type: 'plain_text',
               text: ':bulb: 最近のよかったことを教えてほしいです',
-              emoji: true
+              emoji: true,
             },
             element: {
               type: 'plain_text_input',
               action_id: 'input',
               multiline: true,
-              initial_value: isUpdate ? latestStandup.goodPoint : undefined
+              initial_value: isUpdate ? latestStandup.goodPoint : undefined,
             },
-            optional: true
+            optional: true,
           },
           {
             type: 'input',
@@ -225,7 +231,7 @@ export const showStandupModal = async (
             label: {
               type: 'plain_text',
               text: ':female-technologist: 今日の作業場所は？',
-              emoji: true
+              emoji: true,
             },
             element: {
               type: 'static_select',
@@ -233,7 +239,7 @@ export const showStandupModal = async (
               placeholder: {
                 type: 'plain_text',
                 text: 'Select an item',
-                emoji: true
+                emoji: true,
               },
               initial_option:
                 isUpdate && latestStandup.workPlace !== ''
@@ -241,9 +247,9 @@ export const showStandupModal = async (
                       text: {
                         type: 'plain_text',
                         text: latestStandup.workPlace,
-                        emoji: true
+                        emoji: true,
                       },
-                      value: latestStandup.workPlace
+                      value: latestStandup.workPlace,
                     }
                   : undefined,
               options: [
@@ -251,21 +257,21 @@ export const showStandupModal = async (
                   text: {
                     type: 'plain_text',
                     text: 'リモートワーク',
-                    emoji: true
+                    emoji: true,
                   },
-                  value: 'リモートワーク'
+                  value: 'リモートワーク',
                 },
                 {
                   text: {
                     type: 'plain_text',
                     text: 'オフィス',
-                    emoji: true
+                    emoji: true,
                   },
-                  value: 'オフィス'
-                }
-              ]
+                  value: 'オフィス',
+                },
+              ],
             },
-            optional: true
+            optional: true,
           },
           {
             type: 'input',
@@ -273,18 +279,18 @@ export const showStandupModal = async (
             label: {
               type: 'plain_text',
               text: ':memo: 連絡事項あれば',
-              emoji: true
+              emoji: true,
             },
             element: {
               type: 'plain_text_input',
               action_id: 'input',
               multiline: true,
-              initial_value: isUpdate ? latestStandup.information : undefined
+              initial_value: isUpdate ? latestStandup.information : undefined,
             },
-            optional: true
-          }
-        ]
-      }
+            optional: true,
+          },
+        ],
+      },
     });
   } catch (error) {
     await app.client.chat
@@ -292,7 +298,7 @@ export const showStandupModal = async (
         token: context.botToken,
         user: args.userId,
         channel: args.userId,
-        text: `Sorry, an error has occurred. ${error.data.error}`
+        text: `Sorry, an error has occurred. ${error.data.error}`,
       })
       .catch((err) => {
         console.error(err);
@@ -314,7 +320,7 @@ export const showSettingModal = async (
 ) => {
   const userInfo = (await app.client.users.info({
     token: context.botToken,
-    user: args.userId
+    user: args.userId,
   })) as UserInfoResult;
 
   if (!userInfo.user.is_admin) {
@@ -340,17 +346,17 @@ export const showSettingModal = async (
         title: {
           type: 'plain_text',
           text: 'Standup App Settings',
-          emoji: true
+          emoji: true,
         },
         submit: {
           type: 'plain_text',
           text: 'Submit',
-          emoji: true
+          emoji: true,
         },
         close: {
           type: 'plain_text',
           text: 'Cancel',
-          emoji: true
+          emoji: true,
         },
         blocks: [
           {
@@ -362,15 +368,15 @@ export const showSettingModal = async (
               placeholder: {
                 type: 'plain_text',
                 text: 'Select a channel',
-                emoji: true
+                emoji: true,
               },
-              initial_channel: broadcastChannel
+              initial_channel: broadcastChannel,
             },
             label: {
               type: 'plain_text',
               text: 'Broadcast Channel',
-              emoji: true
-            }
+              emoji: true,
+            },
           },
           {
             type: 'input',
@@ -378,22 +384,22 @@ export const showSettingModal = async (
             element: {
               type: 'plain_text_input',
               action_id: 'invite_input',
-              initial_value: '/invite @standup'
+              initial_value: '/invite @standup',
             },
             label: {
               type: 'plain_text',
               text: 'Invite bot',
-              emoji: true
-            }
+              emoji: true,
+            },
           },
           {
             type: 'context',
             elements: [
               {
                 type: 'mrkdwn',
-                text: 'Please input this command in your broadcast channel.'
-              }
-            ]
+                text: 'Please input this command in your broadcast channel.',
+              },
+            ],
           },
           {
             type: 'input',
@@ -401,13 +407,13 @@ export const showSettingModal = async (
             element: {
               type: 'plain_text_input',
               action_id: 'reminder_input',
-              initial_value: reminderText
+              initial_value: reminderText,
             },
             label: {
               type: 'plain_text',
               text: 'Reminder',
-              emoji: true
-            }
+              emoji: true,
+            },
           },
           {
             type: 'context',
@@ -415,12 +421,12 @@ export const showSettingModal = async (
               {
                 type: 'mrkdwn',
                 text:
-                  'Please edit the above reminder settings and post to your slack team.\nRefer to the following for how to write a reminder.\nhttps://slack.com/help/articles/208423427-Set-a-reminder'
-              }
-            ]
-          }
-        ]
-      }
+                  'Please edit the above reminder settings and post to your slack team.\nRefer to the following for how to write a reminder.\nhttps://slack.com/help/articles/208423427-Set-a-reminder',
+              },
+            ],
+          },
+        ],
+      },
     });
   } catch (error) {
     await app.client.chat
@@ -428,7 +434,7 @@ export const showSettingModal = async (
         token: context.botToken,
         user: args.userId,
         channel: args.userId,
-        text: `Sorry, an error has occurred. ${error.data.error}`
+        text: `Sorry, an error has occurred. ${error.data.error}`,
       })
       .catch((err) => {
         console.error(err);
