@@ -9,7 +9,7 @@ class Standup {
     teamId,
     userId,
     userName,
-    standupInfo
+    standupInfo,
   }: {
     teamId: string;
     userId: string;
@@ -19,69 +19,76 @@ class Standup {
       postDate: string;
       lastTimeTodo: string;
       todayTodo: string;
-      trouble: string;
-      goodPoint: string;
-      workPlace: string;
-      information: string;
+      trouble: string | null;
+      goodPoint: string | null;
+      workPlace: string | null;
+      information: string | null;
       ts: string;
     };
   }) {
     const key = datastore.key({
       namespace: teamId,
-      path: [this.kind, userId]
+      path: [this.kind, userId],
     });
     const entity = {
       key: key,
       data: [
         {
           name: 'userId',
-          value: userId
+          value: userId,
         },
         {
           name: 'userName',
-          value: userName
+          value: userName,
         },
         {
           name: 'postDate',
-          value: standupInfo.postDate
+          value: standupInfo.postDate,
         },
         {
           name: 'status',
-          value: standupInfo.status
+          value: standupInfo.status,
         },
         {
           name: 'lastTimeTodo',
-          value: standupInfo.lastTimeTodo
+          value: standupInfo.lastTimeTodo,
         },
         {
           name: 'todayTodo',
-          value: standupInfo.todayTodo
+          value: standupInfo.todayTodo,
         },
         {
           name: 'trouble',
-          value: standupInfo.trouble || ''
+          value: standupInfo.trouble || '',
         },
         {
           name: 'goodPoint',
-          value: standupInfo.goodPoint || ''
+          value: standupInfo.goodPoint || '',
         },
         {
           name: 'workPlace',
-          value: standupInfo.workPlace || ''
+          value: standupInfo.workPlace || '',
         },
         {
           name: 'information',
-          value: standupInfo.information || ''
+          value: standupInfo.information || '',
         },
         {
           name: 'ts',
-          value: standupInfo.ts
+          value: standupInfo.ts,
         },
         {
           name: 'created',
-          value: new Date().toJSON()
-        }
-      ]
+          value: new Date().toJSON(),
+        },
+      ],
+      excludeFromIndexes: [
+        'lastTimeTodo',
+        'todayTodo',
+        'trouble',
+        'goodPoint',
+        'information',
+      ],
     };
 
     try {
@@ -102,7 +109,7 @@ class Standup {
   static async read(teamId: string, userId: string) {
     const key = datastore.key({
       namespace: teamId,
-      path: [this.kind, userId]
+      path: [this.kind, userId],
     });
     const [standup] = await datastore.get(key);
     return standup ? this.fromDatastore(standup) : null;
