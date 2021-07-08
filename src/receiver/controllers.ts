@@ -34,18 +34,18 @@ expressReceiver.app.get('/auth/callback', async (req, res) => {
   const data = (await app.client.oauth.v2.access({
     client_id: process.env.SLACK_CLIENT_ID!,
     client_secret: process.env.SLACK_CLIENT_SECRET!,
-    code: req.query.code
+    code: req.query.code,
   })) as OAuthV2AccessResult;
 
   const botInfo = (await app.client.users.info({
     token: data.access_token,
-    user: data.bot_user_id
+    user: data.bot_user_id,
   })) as BotInfoResult;
 
   const user = (await app.client.users.info({
     token: data.access_token,
     user: data.authed_user.id,
-    include_locale: true
+    include_locale: true,
   })) as UserInfoResult;
 
   Workspace.add({
@@ -54,8 +54,8 @@ expressReceiver.app.get('/auth/callback', async (req, res) => {
       botToken: data.access_token,
       botUserId: data.bot_user_id,
       botId: botInfo.user.profile.bot_id,
-      tzOffset: user.user.tz_offset
-    }
+      tzOffset: user.user.tz_offset,
+    },
   });
 
   res.redirect('/auth/complete');

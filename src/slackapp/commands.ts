@@ -2,7 +2,7 @@ import app from '~/slackapp/app';
 import { showStandupModal, showSettingModal } from '~/slackapp/common/modal';
 import {
   sendStandupRequestMessage,
-  sendListWorkPlaceMessage
+  sendListWorkPlaceMessage,
 } from '~/slackapp/common/message';
 
 app.command('/standup', async ({ ack, payload, context }) => {
@@ -12,7 +12,7 @@ app.command('/standup', async ({ ack, payload, context }) => {
     {
       userId: payload.user_id,
       teamId: payload.team_id,
-      triggerId: payload.trigger_id
+      triggerId: payload.trigger_id,
     },
     context
   );
@@ -26,7 +26,7 @@ app.command('/standup-setting', async ({ ack, payload, context, say }) => {
       userId: payload.user_id,
       teamId: payload.team_id,
       triggerId: payload.trigger_id,
-      say
+      say,
     },
     context
   );
@@ -38,7 +38,7 @@ app.command('/standup-request', async ({ ack, payload, context }) => {
   await sendStandupRequestMessage(
     {
       channelId: payload.channel_id,
-      userId: payload.user_id
+      userId: payload.user_id,
     },
     context
   );
@@ -53,7 +53,7 @@ app.command(
       {
         userId: payload.user_id,
         teamId: payload.team_id,
-        say
+        say,
       },
       context
     );

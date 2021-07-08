@@ -23,8 +23,8 @@ export const sendStandupRequestMessage = async (
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: '下のボタンから投稿できます :pray:'
-          }
+            text: '下のボタンから投稿できます :pray:',
+          },
         },
         {
           type: 'actions',
@@ -35,13 +35,13 @@ export const sendStandupRequestMessage = async (
               text: {
                 type: 'plain_text',
                 emoji: true,
-                text: "input today's standup"
+                text: "input today's standup",
               },
-              style: 'primary'
-            }
-          ]
-        }
-      ]
+              style: 'primary',
+            },
+          ],
+        },
+      ],
     });
   } catch (error) {
     await app.client.chat
@@ -49,12 +49,14 @@ export const sendStandupRequestMessage = async (
         token: context.botToken,
         user: args.userId,
         channel: args.userId,
-        text: `Sorry, an error has occurred. ${error.data.error}`
+        text: `Sorry, an error has occurred.\n${error.data.response_metadata.messages.join(
+          '\n'
+        )}`,
       })
       .catch((err) => {
-        console.error(err);
+        console.error(JSON.stringify(err));
       });
-    console.error(error);
+    console.error(JSON.stringify(error));
   }
 };
 
@@ -80,9 +82,9 @@ export const sendListWorkPlaceMessage = async (
       text: {
         type: 'plain_text',
         text: `:memo: ${today.format('MM/DD')}の勤怠連絡`,
-        emoji: true
-      }
-    }
+        emoji: true,
+      },
+    },
   ];
 
   filteredStandups.forEach((standup) => {
@@ -90,18 +92,18 @@ export const sendListWorkPlaceMessage = async (
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: `*${standup.userName}*\n- 作業場所: *${standup.workPlace}*\n- 連絡事項: ${standup.information}\n- 気分: ${standup.status}`
-      }
+        text: `*${standup.userName}*\n- 作業場所: *${standup.workPlace}*\n- 連絡事項: ${standup.information}\n- 気分: ${standup.status}`,
+      },
     });
     blocks.push({
-      type: 'divider'
+      type: 'divider',
     });
   });
 
   try {
     await args.say({
       text: '',
-      blocks
+      blocks,
     });
   } catch (error) {
     await app.client.chat
@@ -109,11 +111,13 @@ export const sendListWorkPlaceMessage = async (
         token: context.botToken,
         user: args.userId,
         channel: args.userId,
-        text: `Sorry, an error has occurred. ${error.data.error}`
+        text: `Sorry, an error has occurred.\n${error.data.response_metadata.messages.join(
+          '\n'
+        )}`,
       })
       .catch((err) => {
-        console.error(err);
+        console.error(JSON.stringify(err));
       });
-    console.error(error);
+    console.error(JSON.stringify(error));
   }
 };
