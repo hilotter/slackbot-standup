@@ -8,7 +8,7 @@ const authorizeFn = async ({ teamId }): Promise<AuthorizeResult> => {
     return {
       botToken: workspace.botToken,
       botId: workspace.botId,
-      botUserId: workspace.botUserId
+      botUserId: workspace.botUserId,
     };
   }
   throw new Error('No matching authorizations');
@@ -18,7 +18,7 @@ const app = new App({
   receiver: expressReceiver,
   authorize: authorizeFn,
   logLevel:
-    process.env.NODE_ENV === 'production' ? LogLevel.WARN : LogLevel.DEBUG
+    process.env.NODE_ENV === 'production' ? LogLevel.WARN : LogLevel.DEBUG,
 });
 
 export default app;

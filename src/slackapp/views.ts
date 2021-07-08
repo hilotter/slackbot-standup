@@ -8,6 +8,7 @@ import { UserProfileResult, ChatPostMessageResult } from '~/types';
 app.view('standup', async ({ ack, body, view, context }) => {
   await ack();
 
+  const MAX_TEXT_SIZE = 3000;
   const teamId = view.team_id;
   const workspace = await Workspace.read(teamId);
   const tzOffset = workspace.tzOffset || 0;
@@ -37,7 +38,7 @@ app.view('standup', async ({ ack, body, view, context }) => {
         text: 'setting not found. please input "/standup-setting" in advance',
       });
     } catch (error) {
-      console.error(error);
+      console.error(JSON.stringify(error));
     }
     return;
   }
@@ -47,28 +48,74 @@ app.view('standup', async ({ ack, body, view, context }) => {
     user: userId,
   })) as UserProfileResult;
 
-  const headBlockTexts = ['*今日の気分はどうですか？*', `${status}\n`];
-  const bodyBlockTexts = [
-    '*前回はなにをしましたか？*',
-    `${lastTimeTodo}\n`,
-    '*今日はなにをしますか？*',
-    `${todayTodo}\n`,
+  const blockTexts = [
+    {
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: ['*今日の気分はどうですか？*', `${status}\n`].join('\n'),
+      },
+    },
+    {
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: ['*前回はなにをしましたか？*', `${lastTimeTodo}\n`]
+          .join('\n')
+          .substring(0, MAX_TEXT_SIZE),
+      },
+    },
+    {
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: ['*今日はなにをしますか？*', `${todayTodo}\n`]
+          .join('\n')
+          .substring(0, MAX_TEXT_SIZE),
+      },
+    },
   ];
   if (trouble) {
-    bodyBlockTexts.push('*困りごと、悩みごとはありますか？*');
-    bodyBlockTexts.push(`${trouble}\n`);
+    blockTexts.push({
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: ['*困りごと、悩みごとはありますか？*', `${trouble}\n`]
+          .join('\n')
+          .substring(0, MAX_TEXT_SIZE),
+      },
+    });
   }
   if (goodPoint) {
-    bodyBlockTexts.push('*最近のよかったことを教えてほしいです*');
-    bodyBlockTexts.push(`${goodPoint}\n`);
+    blockTexts.push({
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: ['*最近のよかったことを教えてほしいです*', `${goodPoint}\n`]
+          .join('\n')
+          .substring(0, MAX_TEXT_SIZE),
+      },
+    });
   }
   if (workPlace) {
-    bodyBlockTexts.push('*今日の作業場所は？*');
-    bodyBlockTexts.push(`${workPlace}\n`);
+    blockTexts.push({
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: ['*今日の作業場所は？*', `${workPlace}\n`].join('\n'),
+      },
+    });
   }
   if (information) {
-    bodyBlockTexts.push('*連絡事項あれば*');
-    bodyBlockTexts.push(`${information}\n`);
+    blockTexts.push({
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: ['*連絡事項あれば*', `${information}\n`]
+          .join('\n')
+          .substring(0, MAX_TEXT_SIZE),
+      },
+    });
   }
 
   let messageArguments = {
@@ -93,20 +140,7 @@ app.view('standup', async ({ ack, body, view, context }) => {
           },
         ],
       },
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: headBlockTexts.join('\n'),
-        },
-      },
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: bodyBlockTexts.join('\n'),
-        },
-      },
+      ...blockTexts,
     ],
   };
 
@@ -153,12 +187,14 @@ app.view('standup', async ({ ack, body, view, context }) => {
         token: context.botToken,
         user: userId,
         channel: userId,
-        text: `Sorry, an error has occurred. ${error.data.error}`,
+        text: `Sorry, an error has occurred.\n${error.data.response_metadata.messages.join(
+          '\n'
+        )}`,
       })
       .catch((err) => {
-        console.error(err);
+        console.error(JSON.stringify(err));
       });
-    console.error(error);
+    console.error(JSON.stringify(error));
   }
 });
 
@@ -195,7 +231,7 @@ app.view('standup_setting', async ({ ack, body, view, context }) => {
       text: msg,
     });
   } catch (error) {
-    console.error(error);
+    console.error(JSON.stringify(error));
   }
 });
 
