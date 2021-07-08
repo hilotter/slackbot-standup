@@ -38,8 +38,7 @@ export const showStandupModal = async (
             type: 'section',
             text: {
               type: 'plain_text',
-              text:
-                ':man-biking: Loading...\n\nIf the loading does not complete after 10 seconds, click the Cancel button and run /standup again.',
+              text: ':man-biking: Loading...\n\nIf the loading does not complete after 10 seconds, click the Cancel button and run /standup again.',
             },
           },
         ],
@@ -51,9 +50,11 @@ export const showStandupModal = async (
       throw Error(res.error);
     }
 
-    const viewId = (res.view as {
-      id: string;
-    }).id;
+    const viewId = (
+      res.view as {
+        id: string;
+      }
+    ).id;
     const latestStandup = await Standup.read(args.teamId, args.userId);
     const today = await getToday(args.teamId);
     const isUpdate = latestStandup && latestStandup.postDate === today.toJSON();
@@ -298,12 +299,14 @@ export const showStandupModal = async (
         token: context.botToken,
         user: args.userId,
         channel: args.userId,
-        text: `Sorry, an error has occurred. ${error.data.error}`,
+        text: `Sorry, an error has occurred.\n${error.data.response_metadata.messages.join(
+          '\n'
+        )}`,
       })
       .catch((err) => {
-        console.error(err);
+        console.error(JSON.stringify(err));
       });
-    console.error(error);
+    console.error(JSON.stringify(error));
   }
 };
 
@@ -420,8 +423,7 @@ export const showSettingModal = async (
             elements: [
               {
                 type: 'mrkdwn',
-                text:
-                  'Please edit the above reminder settings and post to your slack team.\nRefer to the following for how to write a reminder.\nhttps://slack.com/help/articles/208423427-Set-a-reminder',
+                text: 'Please edit the above reminder settings and post to your slack team.\nRefer to the following for how to write a reminder.\nhttps://slack.com/help/articles/208423427-Set-a-reminder',
               },
             ],
           },
@@ -434,11 +436,13 @@ export const showSettingModal = async (
         token: context.botToken,
         user: args.userId,
         channel: args.userId,
-        text: `Sorry, an error has occurred. ${error.data.error}`,
+        text: `Sorry, an error has occurred.\n${error.data.response_metadata.messages.join(
+          '\n'
+        )}`,
       })
       .catch((err) => {
-        console.error(err);
+        console.error(JSON.stringify(err));
       });
-    console.error(error);
+    console.error(JSON.stringify(error));
   }
 };

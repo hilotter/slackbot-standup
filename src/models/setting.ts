@@ -7,7 +7,7 @@ class Setting {
 
   static async add({
     teamId,
-    settingInfo
+    settingInfo,
   }: {
     teamId: string;
     settingInfo: {
@@ -17,24 +17,24 @@ class Setting {
   }) {
     const key = datastore.key({
       namespace: teamId,
-      path: [this.kind, teamId]
+      path: [this.kind, teamId],
     });
     const entity = {
       key: key,
       data: [
         {
           name: 'broadcastChannel',
-          value: settingInfo.broadcastChannel
+          value: settingInfo.broadcastChannel,
         },
         {
           name: 'reminderText',
-          value: settingInfo.reminderText
+          value: settingInfo.reminderText,
         },
         {
           name: 'created',
-          value: new Date().toJSON()
-        }
-      ]
+          value: new Date().toJSON(),
+        },
+      ],
     };
 
     try {
@@ -55,7 +55,7 @@ class Setting {
   static async read(teamId: string) {
     const key = datastore.key({
       namespace: teamId,
-      path: [this.kind, teamId]
+      path: [this.kind, teamId],
     });
     const [setting] = await datastore.get(key);
     return setting ? this.fromDatastore(setting) : null;

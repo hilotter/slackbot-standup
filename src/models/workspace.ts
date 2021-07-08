@@ -7,7 +7,7 @@ class Workspace {
 
   static async add({
     teamId,
-    botInfo
+    botInfo,
   }: {
     teamId: string;
     botInfo: {
@@ -19,32 +19,32 @@ class Workspace {
   }) {
     const key = datastore.key({
       namespace: teamId,
-      path: [this.kind, teamId]
+      path: [this.kind, teamId],
     });
     const entity = {
       key: key,
       data: [
         {
           name: 'botId',
-          value: botInfo.botId
+          value: botInfo.botId,
         },
         {
           name: 'botToken',
-          value: botInfo.botToken
+          value: botInfo.botToken,
         },
         {
           name: 'botUserId',
-          value: botInfo.botUserId
+          value: botInfo.botUserId,
         },
         {
           name: 'tzOffset',
-          value: botInfo.tzOffset
+          value: botInfo.tzOffset,
         },
         {
           name: 'created',
-          value: new Date().toJSON()
-        }
-      ]
+          value: new Date().toJSON(),
+        },
+      ],
     };
 
     try {
@@ -65,7 +65,7 @@ class Workspace {
   static async read(teamId: string) {
     const key = datastore.key({
       namespace: teamId,
-      path: [this.kind, teamId]
+      path: [this.kind, teamId],
     });
     const [workspace] = await datastore.get(key);
     return workspace ? this.fromDatastore(workspace) : null;
