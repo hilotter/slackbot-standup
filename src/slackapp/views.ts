@@ -187,9 +187,11 @@ app.view('standup', async ({ ack, body, view, context }) => {
         token: context.botToken,
         user: userId,
         channel: userId,
-        text: `Sorry, an error has occurred.\n${error.data.response_metadata.messages.join(
-          '\n'
-        )}`,
+        text: `Sorry, an error has occurred.\n${
+          error.data.response_metadata.messages
+            ? error.data.response_metadata.messages.join('\n')
+            : error.data.error
+        }`,
       })
       .catch((err) => {
         console.error(JSON.stringify(err));
